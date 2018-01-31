@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "EVContactsPicker"
-  s.version          = "0.5.12"
+  s.version          = "0.5.13"
   s.summary          = "A Contact Picker using Contacts Framework that allows any input source not just the Apple Contacts."
 
   s.description      = <<-DESC
@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/edwardvalentini/EVContactsPicker.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/edwardvalentini'
 
-  s.platform     = :ios, '10.3'
+  s.platform     = :ios, '9.0'
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
