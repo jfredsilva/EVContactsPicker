@@ -336,7 +336,7 @@ import ContactsUI
         cell.email?.isHidden = (contact.email == nil || contact.email?.isEmpty == true || showEmail == false)
         cell.phone?.isHidden = (contact.phone == nil || contact.phone?.isEmpty == true || showPhone == false)
         
-        if let username = contact.captainUsername {
+        if let username = contact.captainUsername, username.count > 0 {
             cell.phone?.text = "@" + username
         }else if let phone = contact.phone, let _ = contact.playerID {
             cell.phone?.text = phone + " (Captain player)"
