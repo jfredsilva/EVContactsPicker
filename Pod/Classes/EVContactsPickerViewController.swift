@@ -339,7 +339,7 @@ import ContactsUI
         if let username = contact.captainUsername {
             cell.phone?.text = "@" + username
         }else if let phone = contact.phone, let _ = contact.playerID {
-            cell.phone?.text = phone + "(Captain player)"
+            cell.phone?.text = phone + " (Captain player)"
         }else{
             cell.phone?.text = contact.phone
         }
