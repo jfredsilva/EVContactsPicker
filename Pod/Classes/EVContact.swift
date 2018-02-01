@@ -17,6 +17,7 @@ public protocol EVContactProtocol {
     var firstName : String? { get set }
     var lastName : String? { get set }
     var phone : String? { get set }
+    var internationalPhone: String? { get set }
     var email : String? { get set }
     var image : UIImage? { get set }
     var imageURL : URL? { get set }
@@ -56,6 +57,7 @@ public struct EVContact: EVContactProtocol {
     public var imageURL : URL? = nil
     public var email: String? = nil
     public var phone: String? = nil
+    public var internationalPhone: String? = nil
     public var lastName: String? = nil
     public var firstName: String? = nil
     
