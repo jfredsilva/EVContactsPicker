@@ -23,6 +23,8 @@ public protocol EVContactProtocol {
     var selected : Bool { get set }
     var date : Date? { get set }
     var dateUpdated : Date? { get set }
+    var captainUsername: String? { get set }
+    var playerID: Int? { get set }
     
     func fullname() -> String?
 }
@@ -56,6 +58,9 @@ public struct EVContact: EVContactProtocol {
     public var phone: String? = nil
     public var lastName: String? = nil
     public var firstName: String? = nil
+    
+    public var captainUsername: String? = nil
+    public var playerID: Int? = nil
     
     public init(identifier: String) {
         self.identifier = identifier

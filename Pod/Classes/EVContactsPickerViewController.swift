@@ -60,7 +60,7 @@ import ContactsUI
         return image
     }
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    override public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         self.setup()
     }
@@ -336,7 +336,14 @@ import ContactsUI
         cell.email?.isHidden = (contact.email == nil || contact.email?.isEmpty == true || showEmail == false)
         cell.phone?.isHidden = (contact.phone == nil || contact.phone?.isEmpty == true || showPhone == false)
         
-        cell.phone?.text = contact.phone
+        if let username = contact.captainUsername {
+            cell.phone?.text = "@" + username
+        }else if let phone = contact.phone, let _ = contact.playerID {
+            cell.phone?.text = phone + "(Captain player)"
+        }else{
+            cell.phone?.text = contact.phone
+        }
+        
         cell.email?.text = contact.email
         
         if let cImage = contact.image {
