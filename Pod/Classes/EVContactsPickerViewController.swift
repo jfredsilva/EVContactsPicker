@@ -83,7 +83,7 @@ import ContactsUI
         self.edgesForExtendedLayout = []
         
         updateTitle()
-        self.curBundle = Bundle(for: type(of: self))
+        self.curBundle = Bundle(for: EVContactsPickerViewController.self)
         if( self.useExternal == false ) {
             self.store = CNContactStore()
         }
