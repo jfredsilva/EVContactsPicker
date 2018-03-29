@@ -21,9 +21,9 @@ import ContactsUI
     var store : CNContactStore? = nil
     var tableView : UITableView? = nil
     var contacts : [EVContactProtocol]? = nil
-    var selectedContacts : [EVContactProtocol]? = nil
+    open var selectedContacts : [EVContactProtocol]? = nil
     var filteredContacts : [EVContactProtocol]? = nil
-    var barButton : UIBarButtonItem? = nil
+    open var barButton : UIBarButtonItem? = nil
     var useExternal : Bool = false
     public var maxSelectedContacts : Int = -1 {
         didSet {
@@ -113,9 +113,8 @@ import ContactsUI
     override open func viewDidLoad() {
         super.viewDidLoad()
         
-        barButton = UIBarButtonItem(title: Bundle.evLocalizedStringForKey("Done"), style: .done, target: self, action: #selector(EVContactsPickerViewController.done(_:)))
+        self.setRightButton()
         barButton?.isEnabled = false
-        self.navigationItem.rightBarButtonItem = barButton
         
         if self.navigationController?.viewControllers.first == self {
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel,
@@ -157,6 +156,11 @@ import ContactsUI
             self.filteredContacts = self.contacts
             self.tableView?.reloadData()
         }
+    }
+    
+    open func setRightButton() {
+        barButton = UIBarButtonItem(title: Bundle.evLocalizedStringForKey("Done"), style: .done, target: self, action: #selector(EVContactsPickerViewController.done(_:)))
+        self.navigationItem.rightBarButtonItem = barButton
     }
     
     override open func viewWillAppear(_ animated: Bool) -> Void {
