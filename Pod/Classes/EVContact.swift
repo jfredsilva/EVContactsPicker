@@ -8,6 +8,12 @@
 
 import UIKit
 
+public enum EVContactType {
+    case EVContact
+    case PhoneContact
+    case UsernameContact
+}
+
 //public func ==(lhs: EVContactProtocol, rhs: EVContactProtocol) -> Bool {
 //    return lhs.identifier == rhs.identifier
 //}

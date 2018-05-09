@@ -18,6 +18,8 @@ class EVContactBubble: UIView, UITextViewDelegate {
     var delegate : EVContactBubbleDelegate?
     var gradientLayer : CAGradientLayer?
     
+    var type: EVContactType
+    
     let kBubbleColor = UIColor(red: 24.0/255.0, green: 134.0/255.0, blue: 242.0/255.0, alpha: 1.0)
     let kBubbleColorSelected = UIColor(red: 151.0/255.0, green: 199.0/255.0, blue: 250.0/255.0, alpha: 1.0)
     let kHorizontalPadding = CGFloat(10.0)
@@ -30,7 +32,9 @@ class EVContactBubble: UIView, UITextViewDelegate {
         self.init(name: name, color: nil, selectedColor: nil)
     }
     
-    init(name: String, color: EVBubbleColor?, selectedColor: EVBubbleColor?) {
+    init(name: String, color: EVBubbleColor?, selectedColor: EVBubbleColor?, type: EVContactType = .EVContact) {
+        self.type = type
+        
         super.init(frame: CGRect.zero)
         self.name = name
         self.color = color ?? EVBubbleColor(gradientTop: kBubbleColor, gradientBottom: kBubbleColor, border: kBubbleColor)
@@ -39,6 +43,8 @@ class EVContactBubble: UIView, UITextViewDelegate {
     }
 
     required init?(coder aDecoder: NSCoder) {
+        self.type = .EVContact
+        
         super.init(coder: aDecoder)
     }
 

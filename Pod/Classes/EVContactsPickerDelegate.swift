@@ -9,6 +9,7 @@
 import Foundation
 
 public protocol EVContactsPickerDelegate: class  {
+    func didChooseAddContact() -> Void
     func didChooseContacts(_ contacts: [EVContactProtocol]? ) -> Void
     func shouldShowContact(_ contact: EVContactProtocol) -> Bool
 }

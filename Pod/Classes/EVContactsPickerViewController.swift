@@ -10,19 +10,18 @@ import UIKit
 import Contacts
 import ContactsUI
 
-
 @available(iOS 9.0, *)
 @objc open class EVContactsPickerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate,  EVPickedContactsViewDelegate, CNContactViewControllerDelegate {
     
     
     let kKeyboardHeight : CGFloat = 0.0
     
-    var contactPickerView : EVPickedContactsView? = nil
+    open var contactPickerView : EVPickedContactsView? = nil
     var store : CNContactStore? = nil
-    var tableView : UITableView? = nil
+    open var tableView : UITableView? = nil
     var contacts : [EVContactProtocol]? = nil
     open var selectedContacts : [EVContactProtocol]? = nil
-    var filteredContacts : [EVContactProtocol]? = nil
+    open var filteredContacts : [EVContactProtocol]? = nil
     open var barButton : UIBarButtonItem? = nil
     var useExternal : Bool = false
     public var maxSelectedContacts : Int = -1 {
@@ -66,7 +65,7 @@ import ContactsUI
     }
     
     public init(externalDataSource: [EVContactProtocol]!) {
-        self.init()
+        super.init(nibName: nil, bundle: nil)
         self.useExternal = true
         self.externalDataSource = externalDataSource
         self.setup()
@@ -75,7 +74,6 @@ import ContactsUI
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.setup()
-
     }
     
     func setup() -> Void {
@@ -90,7 +88,7 @@ import ContactsUI
 
     }
     
-    func updateTitle() -> Void {
+    open func updateTitle() -> Void {
         var contactsPresented = false
         if let theContacts = self.selectedContacts {
             contactsPresented = theContacts.isEmpty
@@ -105,7 +103,7 @@ import ContactsUI
             if singleSelection {
                 self.title  = Bundle.evLocalizedStringForKey("Add Contacts")
             } else {
-                self.title = String(Bundle.evLocalizedStringForKey("Add Contacts")! + "(\(self.selectedContacts!.count))")
+                self.title = String(Bundle.evLocalizedStringForKey("Add Contacts")! + "(\(self.totalSelected()))")
             }
         }
     }
@@ -132,7 +130,6 @@ import ContactsUI
         
         self.tableView?.delegate  = self
         self.tableView?.dataSource = self
-        
 
         
         self.tableView?.register(UINib(nibName: "EVContactsPickerTableViewCell", bundle: self.curBundle), forCellReuseIdentifier: "contactCell")
@@ -321,10 +318,68 @@ import ContactsUI
     }
     
     open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        return 40
     }
     
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return getEVCell(tableView: tableView, indexPath: indexPath)
+    }
+    
+    open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+       self.tableView?.deselectRow(at: indexPath, animated: true)
+    }
+    
+    open func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+
+        guard let filteredContacts = self.filteredContacts else {
+            return nil
+        }
+        
+        guard let selectedContacts = self.selectedContacts else {
+            return nil
+        }
+        
+        self.contactPickerView?.resignKeyboard()
+        
+        
+        let cell = tableView.cellForRow(at: indexPath) as! EVContactsPickerTableViewCell
+        
+        let user = filteredContacts[indexPath.row]
+        
+        if selectedContacts.contains(where: { (evcontact) -> Bool in
+            return evcontact.identifier == user.identifier
+        }) {
+            if let ind = selectedContacts.index(where: { $0.identifier == user.identifier }) {
+                self.selectedContacts?.remove(at: ind)
+                self.contactPickerView?.removeContact(user)
+                cell.checkImage?.image = self.unselectedCheckbox
+            }
+        } else if (canAddMoreContacts() || singleSelection) {
+            if singleSelection {
+                self.selectedContacts?.removeAll();
+                self.contactPickerView?.removeAllContacts();
+            }
+            self.selectedContacts?.append(user)
+            if let fullname = user.fullname() {
+                self.contactPickerView?.addContact(user, name: fullname)
+                cell.checkImage?.image = self.selectedCheckbox
+            }
+        }
+        
+        if((self.selectedContacts?.count)! > 0) {
+            self.barButton?.isEnabled = true
+        } else {
+            self.barButton?.isEnabled = false
+        }
+        
+        self.title = String(Bundle.evLocalizedStringForKey("Add Contacts")! + "(\(self.totalSelected()))")
+        self.filteredContacts = self.contacts
+        self.tableView?.reloadData()
+        
+        return indexPath
+    }
+    
+    func getEVCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "contactCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! EVContactsPickerTableViewCell
         
@@ -361,8 +416,8 @@ import ContactsUI
         cell.contactImage?.layer.masksToBounds = true
         cell.contactImage?.layer.cornerRadius = 20
         
- 
-            
+        
+        
         if selectedContacts.contains(where: { (evcontact) -> Bool in
             return evcontact.identifier == contact.identifier
         }) {
@@ -370,7 +425,7 @@ import ContactsUI
         } else {
             cell.checkImage?.image = self.unselectedCheckbox
         }
-
+        
         if !self.useExternal {
             cell.accessoryView = UIButton(type: .detailDisclosure)
             let but = cell.accessoryView as! UIButton
@@ -381,56 +436,6 @@ import ContactsUI
         }
         
         return cell
-    }
-    
-    open func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-
-        guard let filteredContacts = self.filteredContacts else {
-            return nil
-        }
-        
-        guard let selectedContacts = self.selectedContacts else {
-            return nil
-        }
-        
-        self.contactPickerView?.resignKeyboard()
-        
-        
-        let cell = tableView.cellForRow(at: indexPath) as! EVContactsPickerTableViewCell
-        
-        let user = filteredContacts[indexPath.row]
-        
-            if selectedContacts.contains(where: { (evcontact) -> Bool in
-                return evcontact.identifier == user.identifier
-            }) {
-                if let ind = selectedContacts.index(where: { $0.identifier == user.identifier }) {
-                    self.selectedContacts?.remove(at: ind)
-                    self.contactPickerView?.removeContact(user)
-                    cell.checkImage?.image = self.unselectedCheckbox
-                }
-            } else if (canAddMoreContacts() || singleSelection) {
-                if singleSelection {
-                    self.selectedContacts?.removeAll();
-                    self.contactPickerView?.removeAllContacts();
-                }
-                self.selectedContacts?.append(user)
-                if let fullname = user.fullname() {
-                    self.contactPickerView?.addContact(user, name: fullname)
-                    cell.checkImage?.image = self.selectedCheckbox
-                }
-            }
-        
-        if((self.selectedContacts?.count)! > 0) {
-            self.barButton?.isEnabled = true
-        } else {
-            self.barButton?.isEnabled = false
-        }
-        
-        self.title = String(Bundle.evLocalizedStringForKey("Add Contacts")! + "(\(self.selectedContacts!.count))")
-        self.filteredContacts = self.contacts
-        self.tableView?.reloadData()
-        
-        return indexPath
     }
     
     private func canAddMoreContacts() -> Bool {
@@ -471,16 +476,16 @@ import ContactsUI
         
      }
     
-    func contactPickerDidRemoveContact(_ contact: EVContactProtocol) -> Void {
-        guard var selectedContacts = self.selectedContacts else {
+    open func contactPickerDidRemoveContact(_ contact: EVContactProtocol) -> Void {
+        guard let selectedContacts = self.selectedContacts else {
             return
         }
         
         if let ind = selectedContacts.index(where: { (evcontact) -> Bool in
             return  evcontact.identifier == contact.identifier
         }) {
-            selectedContacts.remove(at: ind)
-            let indexPath = IndexPath(row: ind, section: 0)
+            self.selectedContacts?.remove(at: ind)
+            let indexPath = IndexPath(row: ind, section: numberOfSections(in: self.tableView!)-1)
             let cell = self.tableView?.cellForRow(at: indexPath) as! EVContactsPickerTableViewCell
             if((self.selectedContacts?.count)! > 0) {
                 self.barButton?.isEnabled = true
@@ -493,8 +498,15 @@ import ContactsUI
             let im = Bundle.evImage(withName: kUnselectedCheckbox, andExtension: "png")!
             cell.checkImage?.image = im
             
-            self.title = String(Bundle.evLocalizedStringForKey("Add Contacts")! + "(\(self.selectedContacts!.count))")
+            self.title = String(Bundle.evLocalizedStringForKey("Add Contacts")! + "(\(self.totalSelected()))")
         }
+    }
+    
+    open func contactPickerDidRemoveCPTContact(_ contact: String) -> Void {
+    }
+    
+    open func totalSelected() -> String {
+        return self.selectedContacts!.count.description
     }
     
     func contactPickerDidResize(_ pickedContactView: EVPickedContactsView) -> Void {

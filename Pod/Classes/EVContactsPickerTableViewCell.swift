@@ -9,13 +9,13 @@
 import UIKit
 import Nuke
 
-class EVContactsPickerTableViewCell: UITableViewCell {
+public class EVContactsPickerTableViewCell: UITableViewCell {
     
     @IBOutlet var fullName : UILabel?
     @IBOutlet var phone : UILabel?
     @IBOutlet var email : UILabel?
     @IBOutlet var contactImage : UIImageView?
-    @IBOutlet var checkImage : UIImageView?
+    @IBOutlet open var checkImage : UIImageView?
     
     var imageURL: URL? {
         didSet {
@@ -24,12 +24,12 @@ class EVContactsPickerTableViewCell: UITableViewCell {
         }
     }
     
-    override func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
+    override public func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state

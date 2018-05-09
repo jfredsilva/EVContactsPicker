@@ -11,5 +11,6 @@ import Foundation
 protocol EVPickedContactsViewDelegate {
     func contactPickerTextViewDidChange(_ textViewText: String) -> Void
     func contactPickerDidRemoveContact(_ contact: EVContactProtocol) -> Void
+    func contactPickerDidRemoveCPTContact(_ contact: String) -> Void
     func contactPickerDidResize(_ pickedContactView: EVPickedContactsView) -> Void
 }
