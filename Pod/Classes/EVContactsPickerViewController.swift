@@ -318,7 +318,7 @@ import ContactsUI
     }
     
     open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 40
+        return 50
     }
     
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -414,7 +414,7 @@ import ContactsUI
         }
         
         cell.contactImage?.layer.masksToBounds = true
-        cell.contactImage?.layer.cornerRadius = 20
+        cell.contactImage?.layer.cornerRadius = 35/2
         
         
         
