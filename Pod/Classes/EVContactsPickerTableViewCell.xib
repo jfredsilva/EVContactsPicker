@@ -19,25 +19,18 @@
                 <rect key="frame" x="0.0" y="0.0" width="272" height="66.666666666666671"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="UcL-4W-0bw">
-                        <rect key="frame" x="16" y="13" width="240" height="50.666666666666657"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="UcL-4W-0bw">
+                        <rect key="frame" x="13" y="7.9999999999999964" width="251" height="50.666666666666657"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3gp-jh-fuf">
-                                <rect key="frame" x="0.0" y="13" width="25" height="25"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="25" id="6gq-C6-GeG"/>
-                                    <constraint firstAttribute="width" constant="25" id="pXD-la-G5E"/>
-                                </constraints>
-                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="df6-fG-aHi">
-                                <rect key="frame" x="33" y="8" width="35" height="35"/>
+                                <rect key="frame" x="0.0" y="8" width="35" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="8LV-hZ-2sM"/>
                                     <constraint firstAttribute="width" constant="35" id="eFL-QV-3k6"/>
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="ETK-Uv-Khl">
-                                <rect key="frame" x="76" y="0.0" width="164" height="50.666666666666664"/>
+                                <rect key="frame" x="43" y="0.0" width="175" height="50.666666666666664"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FirstName LastName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d75-W7-dxr">
                                         <rect key="frame" x="0.0" y="0.0" width="151" height="18.666666666666668"/>
@@ -59,13 +52,20 @@
                                     </label>
                                 </subviews>
                             </stackView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3gp-jh-fuf">
+                                <rect key="frame" x="226" y="13" width="25" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="6gq-C6-GeG"/>
+                                    <constraint firstAttribute="width" constant="25" id="pXD-la-G5E"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                     </stackView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="UcL-4W-0bw" firstAttribute="centerY" secondItem="49Q-Vl-di7" secondAttribute="centerY" id="R4O-uc-VJg"/>
                     <constraint firstAttribute="trailing" secondItem="UcL-4W-0bw" secondAttribute="trailing" constant="8" id="ahi-Wi-JS9"/>
-                    <constraint firstItem="UcL-4W-0bw" firstAttribute="leading" secondItem="49Q-Vl-di7" secondAttribute="leadingMargin" constant="8" id="dM3-1o-YjS"/>
+                    <constraint firstItem="UcL-4W-0bw" firstAttribute="leading" secondItem="49Q-Vl-di7" secondAttribute="leadingMargin" constant="-3" id="dM3-1o-YjS"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
