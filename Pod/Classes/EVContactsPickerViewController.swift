@@ -342,7 +342,7 @@ import ContactsUI
         self.contactPickerView?.resignKeyboard()
         
         
-        let cell = tableView.cellForRow(at: indexPath) as! EVContactsPickerTableViewCell
+        let cell = tableView.cellForRow(at: indexPath) as? EVContactsPickerTableViewCell
         
         let user = filteredContacts[indexPath.row]
         
@@ -352,7 +352,7 @@ import ContactsUI
             if let ind = selectedContacts.index(where: { $0.identifier == user.identifier }) {
                 self.selectedContacts?.remove(at: ind)
                 self.contactPickerView?.removeContact(user)
-                cell.checkImage?.image = self.unselectedCheckbox
+                cell?.checkImage?.image = self.unselectedCheckbox
             }
         } else if (canAddMoreContacts() || singleSelection) {
             if singleSelection {
@@ -362,7 +362,7 @@ import ContactsUI
             self.selectedContacts?.append(user)
             if let fullname = user.fullname() {
                 self.contactPickerView?.addContact(user, name: fullname)
-                cell.checkImage?.image = self.selectedCheckbox
+                cell?.checkImage?.image = self.selectedCheckbox
             }
         }
         
