@@ -240,7 +240,12 @@ open class EVPickedContactsView: UIView, EVContactBubbleDelegate, UITextViewDele
     
     
 
-    
+    open func enable() {
+        self.textView?.isEditable = true
+    }
+    open func disable() {
+        self.textView?.isEditable = false
+    }
     
 
     // MARK: - Private Methods

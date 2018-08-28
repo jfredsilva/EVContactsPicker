@@ -13,6 +13,8 @@ import ContactsUI
 @available(iOS 9.0, *)
 @objc open class EVContactsPickerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate,  EVPickedContactsViewDelegate, CNContactViewControllerDelegate {
     
+    let spinner = UIActivityIndicatorView()
+    let loadingView = UIView()
     
     let kKeyboardHeight : CGFloat = 0.0
     
@@ -34,7 +36,7 @@ import ContactsUI
             updateTitle()
         }
     }
-    var externalDataSource : [EVContactProtocol]? = nil
+    open var externalDataSource : [EVContactProtocol]? = nil
     
     public var showEmail = true
     public var showPhone = true
@@ -88,6 +90,42 @@ import ContactsUI
 
     }
     
+    private func setLoadingScreen() {
+        
+        // Sets the view which contains the loading text and the spinner
+        let width: CGFloat = 40
+        let height: CGFloat = 40
+        let x = ((tableView?.frame.width)! / 2) - (width / 2)
+        let y = ((tableView?.frame.height)! / 2) - (height / 2) - (self.navigationController?.navigationBar.frame.height)!
+        loadingView.frame = CGRect(x: x, y: y, width: width, height: height)
+        
+        
+        // Sets spinner
+        spinner.activityIndicatorViewStyle = .gray
+        spinner.frame = CGRect(x: 0, y: 0, width: width, height: height)
+        
+        // Adds text and spinner to the view
+        loadingView.addSubview(spinner)
+        
+        tableView?.addSubview(loadingView)
+    }
+    
+    open func startLoadingScreen() {
+        DispatchQueue.main.sync {
+            spinner.startAnimating()
+            spinner.isHidden = false
+        }
+        
+    }
+    
+    private func stopLoadingScreen() {
+        
+        // Hides and stops the text and the spinner
+        spinner.stopAnimating()
+        spinner.isHidden = true
+        
+    }
+    
     open func updateTitle() -> Void {
         var contactsPresented = false
         if let theContacts = self.selectedContacts {
@@ -108,6 +146,12 @@ import ContactsUI
         }
     }
 
+//    override open func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//
+//        self.startLoadingScreen()
+//    }
+    
     override open func viewDidLoad() {
         super.viewDidLoad()
         
@@ -131,6 +175,7 @@ import ContactsUI
         self.tableView?.delegate  = self
         self.tableView?.dataSource = self
 
+        self.setLoadingScreen()
         
         self.tableView?.register(UINib(nibName: "EVContactsPickerTableViewCell", bundle: self.curBundle), forCellReuseIdentifier: "contactCell")
         self.view.insertSubview(self.tableView!, belowSubview: self.contactPickerView!)
@@ -153,6 +198,32 @@ import ContactsUI
             self.filteredContacts = self.contacts
             self.tableView?.reloadData()
         }
+    }
+    
+    open func reloadContacts(externalDataSource: [EVContactProtocol]? = nil) {
+//        DispatchQueue.main.async { () -> Void in
+//            self.startLoadingScreen()
+//        }
+        
+        
+        if let _ = externalDataSource {
+            self.useExternal = true
+            self.contacts = externalDataSource
+            self.selectedContacts = []
+            self.filteredContacts = self.contacts
+        }else {
+            self.getContactsFromAddressBook()
+        }
+        
+        
+        self.refreshContacts()
+//        DispatchQueue.main.async { () -> Void in
+//            self.refreshContacts()
+//        }
+//        DispatchQueue.main.async { () -> Void in
+//            self.view.layoutSubviews()
+//            self.tableView?.reloadData()
+//        }
     }
     
     open func setRightButton() {
@@ -260,7 +331,11 @@ import ContactsUI
                 self.refreshContact(contact)
             }
         }
-        self.tableView?.reloadData()
+        
+        DispatchQueue.main.async { () -> Void in
+            self.stopLoadingScreen()
+            self.tableView?.reloadData()
+        }
     }
 
     func refreshContact(_ contact: EVContactProtocol) {
