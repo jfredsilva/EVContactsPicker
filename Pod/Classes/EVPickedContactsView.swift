@@ -10,6 +10,7 @@ import UIKit
 
 public struct ContactStruct: Hashable  {
     let key: String
+    let subKey: String?
     let type: EVContactType
     
     public static func == (lhs: ContactStruct, rhs: ContactStruct) -> Bool {
@@ -18,6 +19,10 @@ public struct ContactStruct: Hashable  {
     
     public func getKey() -> String {
         return key
+    }
+    
+    public func getSubKey() -> String? {
+        return subKey
     }
     
     public func getType() -> EVContactType {
@@ -117,7 +122,7 @@ open class EVPickedContactsView: UIView, EVContactBubbleDelegate, UITextViewDele
             return
         }
         
-        let contactKey = ContactStruct(key: contact.identifier, type: .EVContact)
+        let contactKey = ContactStruct(key: contact.identifier, subKey: nil, type: .EVContact)
         
         if contactKeys.contains(contact.identifier) {
             return
@@ -148,14 +153,21 @@ open class EVPickedContactsView: UIView, EVContactBubbleDelegate, UITextViewDele
     }
     
     open func addNumber(_ number: String, onCompletion: (ContactStruct) -> Void) -> Void {
-        let contactKey = ContactStruct(key: number, type: .PhoneContact)
+        let contactKey = ContactStruct(key: number, subKey: nil, type: .PhoneContact)
         let contactBubble = EVContactBubble(name: number, color: self.bubbleColor, selectedColor: self.bubbleSelectedColor, type: .PhoneContact)
         self.addContact(contactKey, contactBubble: contactBubble, onCompletion: onCompletion)
     }
     
     open func addUsername(_ username: String, onCompletion: (ContactStruct) -> Void) -> Void {
-        let contactKey = ContactStruct(key: username, type: .UsernameContact)
+        let contactKey = ContactStruct(key: username, subKey: nil, type: .UsernameContact)
         let contactBubble = EVContactBubble(name: username, color: self.bubbleColor, selectedColor: self.bubbleSelectedColor, type: .UsernameContact)
+        self.addContact(contactKey, contactBubble: contactBubble, onCompletion: onCompletion)
+    }
+    
+    open func addGuest(_ guest: [String:String], onCompletion: (ContactStruct) -> Void) -> Void {
+        guard let key = guest.first?.key, let value = guest.first?.value else {return}
+        let contactKey = ContactStruct(key: key, subKey: value, type: .GuestContact)
+        let contactBubble = EVContactBubble(name: key, color: self.bubbleColor, selectedColor: self.bubbleSelectedColor, type: .UsernameContact)
         self.addContact(contactKey, contactBubble: contactBubble, onCompletion: onCompletion)
     }
     
@@ -319,12 +331,12 @@ open class EVPickedContactsView: UIView, EVContactBubbleDelegate, UITextViewDele
                     }
                     self.removeContactByKey(contactKey)
                 }
-            case .PhoneContact:
+            default:
                 self.delegate?.contactPickerDidRemoveCPTContact(contactKey as! String)
                 self.removeContactByKey(contactKey)
-            case .UsernameContact:
-                self.delegate?.contactPickerDidRemoveCPTContact(contactKey as! String)
-                self.removeContactByKey(contactKey)
+//            case .UsernameContact:
+//                self.delegate?.contactPickerDidRemoveCPTContact(contactKey as! String)
+//                self.removeContactByKey(contactKey)
             }
             
         }

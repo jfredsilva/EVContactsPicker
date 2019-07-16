@@ -12,6 +12,7 @@ public enum EVContactType {
     case EVContact
     case PhoneContact
     case UsernameContact
+    case GuestContact
 }
 
 //public func ==(lhs: EVContactProtocol, rhs: EVContactProtocol) -> Bool {
