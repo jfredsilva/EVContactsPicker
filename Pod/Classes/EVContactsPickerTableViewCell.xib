@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -30,10 +29,10 @@
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="ETK-Uv-Khl">
-                                <rect key="frame" x="43" y="0.0" width="175" height="50.666666666666664"/>
+                                <rect key="frame" x="43" y="0.0" width="142" height="50.666666666666664"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FirstName LastName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d75-W7-dxr">
-                                        <rect key="frame" x="0.0" y="0.0" width="151" height="18.666666666666668"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="142" height="18.666666666666668"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
@@ -52,6 +51,13 @@
                                     </label>
                                 </subviews>
                             </stackView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Default" translatesAutoresizingMaskIntoConstraints="NO" id="I0i-eD-1t0">
+                                <rect key="frame" x="193" y="13" width="25" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="25" id="4Yg-df-HMY"/>
+                                    <constraint firstAttribute="height" constant="25" id="kTx-eU-iFz"/>
+                                </constraints>
+                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3gp-jh-fuf">
                                 <rect key="frame" x="226" y="13" width="25" height="25"/>
                                 <constraints>
@@ -60,6 +66,10 @@
                                 </constraints>
                             </imageView>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="I0i-eD-1t0" firstAttribute="centerY" secondItem="3gp-jh-fuf" secondAttribute="centerY" id="1KL-Ce-dpt"/>
+                            <constraint firstItem="3gp-jh-fuf" firstAttribute="leading" secondItem="I0i-eD-1t0" secondAttribute="trailing" constant="8" id="xga-lJ-odv"/>
+                        </constraints>
                     </stackView>
                 </subviews>
                 <constraints>
@@ -69,6 +79,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="captainImage" destination="I0i-eD-1t0" id="3s7-v0-uNr"/>
                 <outlet property="checkImage" destination="3gp-jh-fuf" id="7P8-ap-e5o"/>
                 <outlet property="contactImage" destination="df6-fG-aHi" id="Shb-Gv-sPP"/>
                 <outlet property="email" destination="IaL-1D-hzr" id="WHT-D2-32o"/>
@@ -78,4 +89,7 @@
             <point key="canvasLocation" x="364" y="233.5"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="Default" width="75" height="75"/>
+    </resources>
 </document>

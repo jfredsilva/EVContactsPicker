@@ -16,6 +16,7 @@ public class EVContactsPickerTableViewCell: UITableViewCell {
     @IBOutlet var email : UILabel?
     @IBOutlet var contactImage : UIImageView?
     @IBOutlet open var checkImage : UIImageView?
+    @IBOutlet weak var captainImage: UIImageView!
     
     var imageURL: URL? {
         didSet {
@@ -26,9 +27,19 @@ public class EVContactsPickerTableViewCell: UITableViewCell {
     
     override public func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        self.captainImage.layer.masksToBounds = false
+        self.captainImage.layer.cornerRadius = self.captainImage.frame.height/2
+        self.captainImage.clipsToBounds = true
+        self.captainImage.image = UIImage(named: "Default")
+        self.captainImage.isHidden = true
     }
 
+    override public func prepareForReuse() {
+        super.prepareForReuse()
+        self.captainImage.isHidden = true
+    }
+    
     override public func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

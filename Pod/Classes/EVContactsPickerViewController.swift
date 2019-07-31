@@ -473,7 +473,8 @@ import ContactsUI
         if let username = contact.captainUsername, username.count > 0 {
             cell.phone?.text = "@" + username
         }else if let phone = contact.phone, let _ = contact.playerID {
-            cell.phone?.text = phone + " (Captain player)"
+            cell.phone?.text = phone
+            cell.captainImage.isHidden = false
         }else{
             cell.phone?.text = contact.phone
         }
