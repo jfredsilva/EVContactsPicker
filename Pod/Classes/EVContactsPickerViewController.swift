@@ -111,10 +111,8 @@ import ContactsUI
     }
     
     open func startLoadingScreen() {
-        DispatchQueue.main.sync {
-            spinner.startAnimating()
-            spinner.isHidden = false
-        }
+        spinner.startAnimating()
+        spinner.isHidden = false
         
     }
     
@@ -575,7 +573,7 @@ import ContactsUI
             }
 //            let imPath = self.curBundle?.path(forResource: kUnselectedCheckbox, ofType: "png", inDirectory: "EVContactsPicker.bundle")
 //            let im = UIImage(contentsOfFile: imPath!)
-//            
+//
             
             self.title = String(Bundle.evLocalizedStringForKey("Add Contacts")! + "(\(self.totalSelected()))")
         }
