@@ -563,7 +563,11 @@ import ContactsUI
         }) {
             self.selectedContacts?.remove(at: ind)
             let indexPath = IndexPath(row: ind, section: numberOfSections(in: self.tableView!)-1)
-            let cell = self.tableView?.cellForRow(at: indexPath) as! EVContactsPickerTableViewCell
+            
+            if let cell = self.tableView?.cellForRow(at: indexPath) as? EVContactsPickerTableViewCell {
+                let im = Bundle.evImage(withName: kUnselectedCheckbox, andExtension: "png")!
+                cell.checkImage?.image = im
+            }
             if((self.selectedContacts?.count)! > 0) {
                 self.barButton?.isEnabled = true
             } else {
@@ -572,8 +576,6 @@ import ContactsUI
 //            let imPath = self.curBundle?.path(forResource: kUnselectedCheckbox, ofType: "png", inDirectory: "EVContactsPicker.bundle")
 //            let im = UIImage(contentsOfFile: imPath!)
 //            
-            let im = Bundle.evImage(withName: kUnselectedCheckbox, andExtension: "png")!
-            cell.checkImage?.image = im
             
             self.title = String(Bundle.evLocalizedStringForKey("Add Contacts")! + "(\(self.totalSelected()))")
         }
